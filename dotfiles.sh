@@ -2,9 +2,15 @@
 
 if ! command -v git >/dev/null 2>&1 ||
         ! command -v time >/dev/null 2>&1; then
-    echo "Please install the following packages before continuing:" 1>&2
-    echo "git time" 1>&2
-    exit 1
+    if (( EUID == 0 )) && command -v dnf >/dev/null 2>&1; then
+        dnf install -y git time
+    elif (( EUID == 0 )) && command -v apt >/dev/null 2>&1; then
+        apt install -y git time
+    else
+        echo "Please install the following packages before continuing:" 1>&2
+        echo "git time" 1>&2
+        exit 1
+    fi
 fi
 
 install_dotfiles() {(
