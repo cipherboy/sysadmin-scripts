@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 function update_p() {(
     set -e
